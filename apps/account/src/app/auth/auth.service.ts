@@ -11,6 +11,7 @@ export class AuthService {
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService
   ) {}
+
   async register({ email, password, displayName }: RegisterDto) {
     const oldUser = await this.userRepository.findUser(email);
     if (oldUser) {
@@ -29,12 +30,12 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     const user = await this.userRepository.findUser(email);
     if (!user) {
-      throw new Error('password or login not match ');
+      throw new Error('user doesn\'t exist');
     }
     const userEntity = new UserEntity(user);
     const isCorrrectPassword = await userEntity.validatePassword(password);
     if (!isCorrrectPassword) {
-      throw new Error('password or login not match ');
+      throw new Error('not correct password');
     }
     return { id: user.id };
   }
@@ -43,4 +44,5 @@ export class AuthService {
       access_token: await this.jwtService.signAsync({ id }),
     };
   }
+
 }
