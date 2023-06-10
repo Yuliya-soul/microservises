@@ -7,11 +7,12 @@ return{
         uri:getMongoString(configService)
     }),
     inject:[ConfigService],
-    imports:[ConfigModule]
-}
+    imports:[ConfigModule]}
+
 }
 const getMongoString=(configService:ConfigService)=>
-'mongodb://'+
+'mongodb://localhost:27017/'
+/* 'mongodb://'+
 configService.get('MONGO_LOGIN')+
 ':'+
 configService.get('MONGO_PASSWORD')+
@@ -22,4 +23,4 @@ configService.get('MONGO_PORT')+
 '/'+
 configService.get('MONGO_DATABASE')+
 '&authSource='+
-configService.get('MONGO_AUTHDATABASE');
+configService.get('MONGO_AUTHDATABASE'); */

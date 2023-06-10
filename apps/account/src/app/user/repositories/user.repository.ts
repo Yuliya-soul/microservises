@@ -17,4 +17,7 @@ export class UserRepository {
   async deleteUser(email: string) {
     this.userModel.deleteOne({ email }).exec();
   }
+  async findAll():Promise<User[]>{
+    return this.userModel.find().exec();
+  }
 }
