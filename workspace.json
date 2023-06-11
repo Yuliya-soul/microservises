@@ -3,7 +3,7 @@
   "projects": {
     "account": "apps/account",
     "api": "apps/api",
-    "contracts": "libs/contracts",
+     "contracts": "libs/contracts",
     "interfaces": "libs/interfaces"
   }
 }
