@@ -3,11 +3,11 @@ export enum UserRole {
 	Student = 'Student'
 }
 
-export enum PurchaseState {
-	Started = 'Started',
-	WaitingForPayment = 'WaitingForPayment',
-	Purchased = 'Purchased',
-	Cenceled = 'Cenceled'
+export enum SkillState {
+	None = 'None',
+	Junior = 'Junior',
+	Middle='Middle',
+	Advanced='Advanced'
 }
 
 export interface IUser {
@@ -16,10 +16,11 @@ export interface IUser {
 	email: string;
 	passwordHash: string;
 	role: UserRole;
-	courses?: IUserCourses[];
+	skills?: IUserSkills[];
 }
 
-export interface IUserCourses {
-	courseId: string;
-	purchaseState: PurchaseState;
+export interface IUserSkills {
+	_id?: string;
+	skillId: string;
+	skillState: SkillState;
 }
