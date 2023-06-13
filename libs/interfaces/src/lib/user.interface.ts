@@ -4,10 +4,10 @@ export enum UserRole {
 }
 
 export enum SkillState {
-	None = 'None',
-	Junior = 'Junior',
-	Middle='Middle',
-	Advanced='Advanced'
+	Started = 'Started',
+	WaitingForUpgrade = 'Waiting for upgrade',
+	InProgress='In progress',
+	Canceled='Canceled'
 }
 
 export interface IUser {

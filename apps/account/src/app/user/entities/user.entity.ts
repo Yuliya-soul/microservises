@@ -1,4 +1,9 @@
-import { IUser, IUserSkills, UserRole } from '@microservices/interfaces';
+import {
+  IUser,
+  IUserSkills,
+  SkillState,
+  UserRole,
+} from '@microservices/interfaces';
 import { compare, genSalt, hash } from 'bcryptjs';
 
 export class UserEntity implements IUser {
@@ -35,5 +40,24 @@ export class UserEntity implements IUser {
       role: this.role,
       email: this.email,
     };
+  }
+  public addSkill(skillId: string) {
+    const exist = this.skills.find((skill) => skill._id === skillId);
+    if (exist) {
+      throw new Error('skill already exist');
+    }
+    this.skills.push({ skillId, skillState: SkillState.None });
+  }
+  public deleteSkill(skillId: string) {
+    this.skills.filter((skill) => skill._id !== skillId);
+  }
+  public updateSkillStatus(skillId: string, state: SkillState) {
+    this.skills = this.skills.map((skill) => {
+      if (skill._id === skillId) {
+        skill.skillState = state;
+        return skill
+      }
+      return
+    });
   }
 }
