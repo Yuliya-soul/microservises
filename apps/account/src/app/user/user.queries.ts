@@ -13,7 +13,7 @@ export class UserQueries {
   async userInfo(
     @Body() { id }: AccountUserInfo.Request
   ): Promise<AccountUserInfo.Response> {
-    const user = await this.userRepository.findUserId(id);
+    const user = await this.userRepository.findUserById(id);
     const profile = new UserEntity(user).getPublicProfile();
     return { profile };
   }
@@ -23,7 +23,7 @@ export class UserQueries {
   async userSkills(
     @Body() { id }: AccountUserSkills.Request
   ): Promise<AccountUserSkills.Response> {
-    const user = await this.userRepository.findUserId(id);
+    const user = await this.userRepository.findUserById(id);
     return { skills: user.skills };
   }
 }

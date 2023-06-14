@@ -46,7 +46,7 @@ export class UserEntity implements IUser {
     if (exist) {
       throw new Error('skill already exist');
     }
-    this.skills.push({ skillId, skillState: SkillState.None });
+    this.skills.push({ skillId, skillState: SkillState.Started });
   }
   public deleteSkill(skillId: string) {
     this.skills.filter((skill) => skill._id !== skillId);

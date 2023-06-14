@@ -6,7 +6,7 @@ export abstract class AddSkillSagaState {
   public setContext(saga: AddSkillSaga) {
     this.saga = saga;
   }
-  public abstract startSkill():Promise<{courseStartLink:string, user:UserEntity}>
+  public abstract startSkill():Promise<{skillStartLink:string, user:UserEntity}>
   public abstract checkStartSkill():Promise<{ user:UserEntity}>
   public abstract cancel():Promise<{ user:UserEntity}>
 }
