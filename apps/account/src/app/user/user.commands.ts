@@ -1,7 +1,11 @@
 import { Body, Controller } from '@nestjs/common';
 import { UserRepository } from './repositories/user.repository';
 import { RMQRoute, RMQService, RMQValidate } from 'nestjs-rmq';
-import { AccountChangeProfile, ProgressGenerateLink, SkillGetSkill } from '@microservices/contracts';
+import {
+  AccountChangeProfile,
+  ProgressCheckSkill,
+  ProgressGenerateLink, 
+} from '@microservices/contracts';
 import { AddSkillSaga } from './sagas/add-skill.saga';
 import { UserEntity } from './entities/user.entity';
 
@@ -40,8 +44,23 @@ export class UserCommands {
     const UserEntityNew = new UserEntity(userCurrent);
     const saga = new AddSkillSaga(UserEntityNew, skillId, this.rmqService);
     const { user, skillStartLink } = await saga.getState().startSkill();
-    await this.userRepository.updateUser(user)
+    await this.userRepository.updateUser(user);
     return { skillStartLink };
   }
 
+  @RMQValidate()
+  @RMQRoute(ProgressCheckSkill.topic)
+  async checkStartSkill(
+    @Body() { userId, skillId }: ProgressCheckSkill.Request
+  ): Promise<ProgressCheckSkill.Response> {
+    const userCurrent = await this.userRepository.findUserById(userId);
+    if (!userCurrent) {
+      throw new Error("user doesn't exist");
+    }
+    const UserEntityNew = new UserEntity(userCurrent);
+    const saga = new AddSkillSaga(UserEntityNew, skillId, this.rmqService);
+    const { user, status } = await saga.getState().checkStartSkill();
+    await this.userRepository.updateUser(user);
+    return { status };
+  }
 }
