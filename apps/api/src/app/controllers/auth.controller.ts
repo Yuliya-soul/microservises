@@ -1,7 +1,8 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
-import { AccountLogin, AccountRegister } from '@microservices/contracts';
+import { Body, Controller,  Post, UnauthorizedException } from '@nestjs/common';
+import { AccountLogin, AccountRegister, AccountUserSkills } from '@microservices/contracts';
 import { RMQService } from 'nestjs-rmq';
 import { RegisterDto, LoginDto } from '../dtos';
+import { UserSkillsDto } from '../dtos/user-skills.dto';
 
 
 @Controller('auth')
@@ -26,6 +27,17 @@ export class AuthController {
         AccountLogin.Request,
         AccountLogin.Response
       >(AccountLogin.topic, dto);
+    } catch (e) {
+      throw e || new UnauthorizedException(e.message);
+    }
+  }
+  @Post('user-skills')
+  async getUserSkills(@Body() dto:UserSkillsDto) {
+    try {
+      return await this.rmqService.send<
+      AccountUserSkills.Request,
+      AccountUserSkills.Response
+      >(AccountUserSkills.topic, dto);
     } catch (e) {
       throw e || new UnauthorizedException(e.message);
     }
